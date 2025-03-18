@@ -1,0 +1,631 @@
+TOH PRATICALS
+
+                                           PRACTICAL-1
+* HYPOTHESIS TESTING FOR MEAN *
+Q.1 (a) Perform testing of hypothesis using One sample t – test.
+
+import numpy as np
+from scipy import stats
+
+# Sample data: Weights of 10 people
+sample_data = [68, 72, 75, 69, 71, 74, 70, 73, 76, 69]
+
+# Population mean
+population_mean = 70
+
+# Perform the one-sample t-test
+t_statistic, p_value = stats.ttest_1samp(sample_data, population_mean)
+
+# Output the result
+print(f"T-statistic: {t_statistic}")
+print(f"P-value: {p_value}")
+
+# Determine whether to reject the null hypothesis (alpha = 0.05)
+alpha = 0.05
+if p_value < alpha:
+    print("Reject the null hypothesis: The sample mean is significantly different from the population mean.")
+else:
+    print("Fail to reject the null hypothesis: There is no significant difference from the population mean.")
+
+
+Q.1 (b) Perform testing of hypothesis using Two sample t – test.
+
+import numpy as np
+from scipy import stats
+
+# Sample data: Exam scores of two groups of students
+class1_scores = [85, 88, 90, 87, 85, 84, 91, 86, 89, 87]
+class2_scores = [78, 75, 79, 82, 80, 77, 76, 81, 79, 80]
+
+# Perform the two-sample t-test
+t_statistic, p_value = stats.ttest_ind(class1_scores, class2_scores)
+
+# Output the result
+print(f"T-statistic: {t_statistic}")
+print(f"P-value: {p_value}")
+
+# Determine whether to reject the null hypothesis (alpha = 0.05)
+alpha = 0.05
+if p_value < alpha:
+    print("Reject the null hypothesis: The means of the two groups are significantly different.")
+else:
+    print("Fail to reject the null hypothesis: There is no significant difference between the means of the two groups.")
+
+
+Q.1 (c) Perform testing of hypothesis using z – test.
+
+import numpy as np
+from scipy import stats
+
+# Sample data: Exam scores of 50 students
+sample_data = [72, 74, 69, 80, 77, 75, 73, 78, 76, 79, 71, 74, 72, 80, 74, 76, 75, 79, 70, 73, 78, 76, 71, 79, 75, 74, 77, 72, 74, 76, 73, 70, 72, 74, 79, 80, 77, 75, 74, 73, 72, 76, 78, 74, 75, 79, 77, 72, 80, 73]
+
+# Population mean and population standard deviation
+population_mean = 75
+population_std_dev = 10
+
+# Sample size
+sample_size = len(sample_data)
+
+# Sample mean
+sample_mean = np.mean(sample_data)
+
+# Calculate Z-score
+z_score = (sample_mean - population_mean) / (population_std_dev / np.sqrt(sample_size))
+
+# Calculate p-value (two-tailed test)
+p_value = 2 * (1 - stats.norm.cdf(abs(z_score)))
+
+# Output the result
+print(f"Z-score: {z_score}")
+print(f"P-value: {p_value}")
+
+# Determine whether to reject the null hypothesis (alpha = 0.05)
+alpha = 0.05
+if p_value < alpha:
+    print("Reject the null hypothesis: The sample mean is significantly different from the population mean.")
+else:
+    print("Fail to reject the null hypothesis: There is no significant difference from the population mean.")
+
+
+                                                       PRACTICAL-2
+* Goodness-of-fit test *
+
+Q.2 (a) Perform goodness-of-fit test using chi-squared test.
+
+from scipy.stats import chisquare
+
+# Observed frequencies (data you collected)
+observed = [50, 30, 40]
+
+# Expected frequencies (theoretical or expected distribution)
+expected = [40, 40, 40]
+
+# Perform the chi-square goodness of fit test
+chi2_statistic, p_value = chisquare(f_obs=observed, f_exp=expected)
+
+# Print results
+print(f"Chi-Square Statistic: {chi2_statistic}")
+print(f"P-value: {p_value}")
+
+# Decision based on significance level (0.05)
+alpha = 0.05
+if p_value < alpha:
+    print("Reject the null hypothesis: The observed frequencies do not match the expected frequencies.")
+else:
+    print("Fail to reject the null hypothesis: The observed frequencies match the expected frequencies.")
+
+
+Q.2 (b) Perform testing of hypothesis using chi-squared Test of
+Independence
+
+import numpy as np
+from scipy.stats import chi2_contingency
+
+# Define the contingency table (observed frequencies)
+data = np.array([[60, 40],  # High School
+                 [80, 20],  # Bachelor's
+                 [90, 10]]) # Master's
+
+# Perform the Chi-Square Test of Independence
+chi2_statistic, p_value, dof, expected = chi2_contingency(data)
+
+# Print the results
+print("Chi-Square Statistic:", chi2_statistic)
+print("P-value:", p_value)
+print("Degrees of Freedom:", dof)
+print("Expected Frequencies:")
+print(expected)
+
+# Decision based on significance level (alpha = 0.05)
+alpha = 0.05
+if p_value < alpha:
+    print("Reject the null hypothesis: The variables are not independent.")
+else:
+    print("Fail to reject the null hypothesis: The variables are independent.")
+
+
+Q.2 (c) Perform goodness-of-fit test using KS test.
+
+import numpy as np
+from scipy.stats import kstest, norm
+
+# Generate a sample dataset (replace with your data)
+data = np.random.normal(loc=0, scale=1, size=100)  # Generate 100 samples from N(0, 1)
+
+# Perform the KS test against the normal distribution with mean=0, std=1
+ks_statistic, p_value = kstest(data, 'norm', args=(0, 1))
+
+# Print results
+print(f"KS Statistic: {ks_statistic}")
+print(f"P-value: {p_value}")
+
+# Decision based on significance level (0.05)
+alpha = 0.05
+if p_value < alpha:
+    print("Reject the null hypothesis: The data does not follow the normal distribution.")
+else:
+    print("Fail to reject the null hypothesis: The data follows the normal distribution.")
+
+
+                                        PRACTICAL-3
+* Variance Testing *
+
+Q.3 (a) Perform using F-tests of two variances
+
+import numpy as np
+from scipy import stats
+
+# Sample data
+data1 = [12, 15, 14, 10, 13, 18, 16, 19, 11, 17]  # Example sample 1
+data2 = [22, 25, 28, 21, 27, 23, 30, 22, 26, 29]  # Example sample 2
+
+# Calculate the variances
+var1 = np.var(data1, ddof=1)  # Sample variance of data1
+var2 = np.var(data2, ddof=1)  # Sample variance of data2
+
+# F-statistic = var1 / var2 (assuming var1 > var2)
+f_statistic = var1 / var2 if var1 > var2 else var2 / var1
+
+# Degrees of freedom
+df1 = len(data1) - 1  # Degrees of freedom for data1
+df2 = len(data2) - 1  # Degrees of freedom for data2
+
+# Perform the F-test
+p_value = stats.f.sf(f_statistic, df1, df2)  # p-value for the F-statistic
+
+# Output the results
+print(f"Variance of data1: {var1}")
+print(f"Variance of data2: {var2}")
+print(f"F-statistic: {f_statistic}")
+print(f"Degrees of freedom: df1={df1}, df2={df2}")
+print(f"P-value: {p_value}")
+
+# Decision based on p-value
+alpha = 0.05  # Significance level
+if p_value < alpha:
+    print("Reject the null hypothesis: The variances are significantly different.")
+else:
+    print("Fail to reject the null hypothesis: The variances are not significantly different.")
+
+
+Q.3 (b) Perform Testing of Homogeneity
+
+import numpy as np
+from scipy import stats
+
+# Example data for two populations (or more)
+# Suppose these are the counts of categories in two different populations (rows represent populations, columns represent categories).
+data = np.array([[20, 30, 50],  # Population 1 (counts in categories A, B, C)
+                 [30, 40, 30]])  # Population 2 (counts in categories A, B, C)
+
+# Perform the Chi-square test for homogeneity
+chi2_stat, p_value, dof, expected = stats.chi2_contingency(data)
+
+# Output the results
+print(f"Chi-square statistic: {chi2_stat}")
+print(f"P-value: {p_value}")
+print(f"Degrees of freedom: {dof}")
+print(f"Expected frequencies: \n{expected}")
+
+# Decision based on p-value
+alpha = 0.05  # Significance level
+if p_value < alpha:
+    print("Reject the null hypothesis: The populations do not have the same distribution.")
+else:
+    print("Fail to reject the null hypothesis: The populations have the same distribution.")
+
+
+                                            PRACTICAL-4
+* ANALYSIS OF VARIANCE AND COVARIANCE *
+
+Q4.(a) Perform testing of hypothesis using one-way ANOVA
+
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+# Sample Data: Exam scores for three teaching methods
+data = {'Method': ['A']*5 + ['B']*5 + ['C']*5,
+        'Score': [85, 88, 90, 92, 87, 75, 78, 80, 79, 77, 65, 68, 70, 72, 69]}
+df = pd.DataFrame(data)
+
+# Performing One-Way ANOVA
+model = ols('Score ~ C(Method)', data=df).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+print(anova_table)
+
+# Extract p-value
+p_value = anova_table["PR(>F)"][0]
+alpha = 0.05
+
+# Hypothesis Testing
+if p_value < alpha:
+    print("Reject H0: There is a significant difference between groups.")
+else:
+    print("Fail to Reject H0: No significant difference between groups.")
+
+
+Q.4(b) Perform testing of hypothesis using Two-way ANOVA
+
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+# Sample Data
+data = {'Method': ['A']*6 + ['B']*6,
+        'Gender': ['M', 'F']*6,
+        'Score': [85, 80, 78, 90, 88, 87, 75, 70, 68, 79, 77, 76]}
+df = pd.DataFrame(data)
+
+# Performing Two-Way ANOVA
+model = ols('Score ~ C(Method) + C(Gender) + C(Method):C(Gender)', data=df).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+print(anova_table)
+
+# Extract p-values
+p_values = anova_table["PR(>F)"]
+alpha = 0.05
+
+# Hypothesis Testing
+for factor, p in p_values.items():
+    if p < alpha:
+        print(f"Reject H0 for {factor}: Significant effect detected.")
+    else:
+        print(f"Fail to Reject H0 for {factor}: No significant effect detected.")
+
+
+Q.4(c) Perform testing of hypothesis using MANOVA
+
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from statsmodels.multivariate.manova import MANOVA
+
+# Sample Data: Two dependent variables (WeightLoss and SugarReduction)
+data = {'Diet': ['A']*5 + ['B']*5 + ['C']*5,
+        'WeightLoss': [3, 2.5, 3.2, 3.8, 3.1, 5, 5.5, 5.2, 4.8, 5.3, 7, 7.5, 7.2, 7.8, 7.3],
+        'SugarReduction': [10, 12, 11, 13, 14, 18, 19, 17, 20, 18, 25, 27, 26, 28, 30]}
+df = pd.DataFrame(data)
+
+# Performing MANOVA
+manova = MANOVA.from_formula('WeightLoss + SugarReduction ~ Diet', data=df)
+result = manova.mv_test()
+print(result)
+
+# Extract p-value
+p_value = result.results['Diet']['stat']['Pr > F'][0]
+alpha = 0.05
+
+# Hypothesis Testing
+if p_value < alpha:
+    print("Reject H0: Diet has a significant effect on at least one dependent variable.")
+else:
+    print("Fail to Reject H0: No significant effect of Diet on the dependent variables.")
+
+
+                                         PRACTICAL-5
+* Regression *
+
+Q.5 (a) Perform Simple Linear Regression
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
+# Generating some example data
+X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)  # Feature variable
+Y = np.array([2, 4, 5, 4, 5])  # Target variable
+
+# Splitting data into training and testing sets
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+# Initializing the model and training it
+model = LinearRegression()
+model.fit(X_train, Y_train)
+
+# Predicting the results
+Y_pred = model.predict(X_test)
+
+# Printing the model coefficients
+print(f"Intercept: {model.intercept_}")
+print(f"Coefficient: {model.coef_}")
+
+# Evaluating the model (Mean Squared Error)
+mse = mean_squared_error(Y_test, Y_pred)
+print(f"Mean Squared Error: {mse}")
+
+# Plotting the data and the regression line
+plt.scatter(X, Y, color='blue', label='Data points')
+plt.plot(X, model.predict(X), color='red', label='Regression Line')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.show()
+
+
+Q.5(b) Perform Multiple Linear Regression
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
+# Generating some example data for multiple features
+X = np.array([[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]])  # Two features
+Y = np.array([2, 4, 5, 4, 5])  # Target variable
+
+# Splitting data into training and testing sets
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+# Initializing the model and training it
+model = LinearRegression()
+model.fit(X_train, Y_train)
+
+# Predicting the results
+Y_pred = model.predict(X_test)
+
+# Printing the model coefficients
+print(f"Intercept: {model.intercept_}")
+print(f"Coefficients: {model.coef_}")
+
+# Evaluating the model (Mean Squared Error)
+mse = mean_squared_error(Y_test, Y_pred)
+print(f"Mean Squared Error: {mse}")
+
+
+Q.5(c) Perform Polynomial Regression
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
+# Generating some example data
+X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)  # Feature variable
+Y = np.array([1, 4, 9, 16, 25])  # Target variable (Y = X^2)
+
+# Splitting data into training and testing sets
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+# Creating a PolynomialFeatures object with degree=2 (quadratic)
+poly = PolynomialFeatures(degree=2)
+X_poly_train = poly.fit_transform(X_train)  # Transforming the data into polynomial features
+
+# Initializing and training the model
+model = LinearRegression()
+model.fit(X_poly_train, Y_train)
+
+# Predicting on the test set
+X_poly_test = poly.transform(X_test)  # Transforming the test set to polynomial features
+Y_pred = model.predict(X_poly_test)
+
+# Printing the model coefficients
+print(f"Intercept: {model.intercept_}")
+print(f"Coefficients: {model.coef_}")
+
+# Evaluating the model (Mean Squared Error)
+mse = mean_squared_error(Y_test, Y_pred)
+print(f"Mean Squared Error: {mse}")
+
+# Plotting the data and the polynomial regression curve
+plt.scatter(X, Y, color='blue', label='Data points')
+plt.plot(X, model.predict(poly.transform(X)), color='red', label='Polynomial Regression Curve')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.show()
+
+
+                                            PRACTICAL-6
+* Perform spatial series and spatial auto-regression *
+
+import numpy as np
+import pandas as pd
+import libpysal
+from spreg import OLS, GM_Lag, GM_Error
+import matplotlib.pyplot as plt
+
+# Create an example spatial dataset with coordinates (latitudes and longitudes)
+data = {
+    'id': [1, 2, 3, 4, 5],
+    'value': [2.5, 3.6, 4.2, 5.0, 5.4],
+    'lat': [34.05, 34.07, 34.08, 34.10, 34.12],
+    'lon': [-118.25, -118.27, -118.29, -118.30, -118.32]
+}
+
+# Create a pandas DataFrame
+df = pd.DataFrame(data)
+
+# Create spatial weights matrix based on coordinates (distance-based)
+coords = np.array(df[['lat', 'lon']])
+w = libpysal.weights.KNN.from_array(coords, k=2)
+
+# Visualize the spatial relationship (plotting the coordinates)
+plt.scatter(df['lon'], df['lat'], c=df['value'], cmap='viridis')
+plt.colorbar(label='Value')
+plt.title('Spatial Data Visualization')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
+
+# Perform Spatial Autoregression (SAR) using GM_Lag (Generalized Method of Moments for Spatial Lag)
+y = df['value'].values
+X = np.ones((df.shape[0], 1))  # Just using a constant for simplicity
+
+# Run Generalized Method of Moments for Spatial Lag Model (SAR)
+sar_model = GM_Lag(y, X, w)
+print("Spatial Autoregression Results (SAR - GM_Lag):")
+print(sar_model.summary)
+
+# Perform Spatial Autoregression using OLS for comparison
+ols_model = OLS(y, X)
+print("\nOLS Results for Comparison:")
+print(ols_model.summary)
+
+
+                                          PRACTICAL-7
+* Perform time series analysis using Moving averages *
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Generate a sample time series data
+np.random.seed(0)
+date_range = pd.date_range(start="2025-01-01", periods=20, freq='D')
+data = np.random.randn(20) * 10 + 50  # Generate random data with a mean of 50 and std dev of 10
+
+# Create a DataFrame
+df = pd.DataFrame(data, columns=["Value"], index=date_range)
+
+# 2. Calculate moving averages
+df['SMA_3'] = df['Value'].rolling(window=3).mean()  # 3-day Simple Moving Average
+df['SMA_7'] = df['Value'].rolling(window=7).mean()  # 7-day Simple Moving Average
+
+# 3. Plot the results
+plt.figure(figsize=(10, 6))
+plt.plot(df.index, df['Value'], label='Original Time Series', marker='o', linestyle='-', color='blue')
+plt.plot(df.index, df['SMA_3'], label='3-Day Moving Average', marker='x', linestyle='--', color='red')
+plt.plot(df.index, df['SMA_7'], label='7-Day Moving Average', marker='x', linestyle='--', color='green')
+
+# Adding titles and labels
+plt.title('Time Series with Moving Averages')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+# Show the plot
+plt.show()
+
+
+                                       PRACTICAL-8
+* Perform time series analysis using Trend Analysis *
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Generating some example time series data (for example, monthly data)
+data = {
+    'Date': pd.date_range(start='2020-01-01', periods=12, freq='M'),
+    'Value': [10, 12, 14, 16, 18, 20, 21, 23, 25, 26, 28, 30]  # Example increasing trend
+}
+
+# Convert data into a pandas DataFrame
+df = pd.DataFrame(data)
+df.set_index('Date', inplace=True)
+
+# Visualize the original data
+plt.figure(figsize=(10, 5))
+plt.plot(df.index, df['Value'], label='Original Data', color='blue')
+plt.title("Time Series Data")
+plt.xlabel("Date")
+plt.ylabel("Value")
+plt.show()
+
+# Time series index as numerical values for regression (ordinal time)
+df['Time'] = np.arange(len(df))
+
+# Fit linear regression model
+X = df[['Time']]  # Feature: time
+y = df['Value']  # Target: value
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict the trend (linear regression line)
+df['Trend'] = model.predict(X)
+
+# Visualize the trend with the original data
+plt.figure(figsize=(10, 5))
+plt.plot(df.index, df['Value'], label='Original Data', color='blue')
+plt.plot(df.index, df['Trend'], label='Trend Line', color='red', linestyle='--')
+plt.title("Time Series with Trend Analysis")
+plt.xlabel("Date")
+plt.ylabel("Value")
+plt.legend()
+plt.show()
+
+# Output the model parameters (slope and intercept)
+print(f"Slope (Trend): {model.coef_[0]}")
+print(f"Intercept: {model.intercept_}")
+
+# Displaying the trend and actual data in the DataFrame
+print(df[['Value', 'Trend']])
+
+
+                                    PRACTICAL-9
+* Perform Spectral Analysis *
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Step 1: Create a sample signal with two frequencies (10 Hz and 50 Hz)
+fs = 500  # Sampling frequency in Hz
+t = np.arange(0, 1, 1/fs)  # Time vector for 1 second duration
+
+# Signal with two frequencies: 10 Hz and 50 Hz
+f1, f2 = 10, 50
+signal = np.sin(2 * np.pi * f1 * t) + 0.5 * np.sin(2 * np.pi * f2 * t)
+
+# Step 2: Perform FFT
+n = len(t)  # Number of samples
+frequencies = np.fft.fftfreq(n, 1/fs)  # Frequency bins
+fft_values = np.fft.fft(signal)  # FFT of the signal
+
+# Step 3: Plot the original signal and its spectrum
+plt.figure(figsize=(10, 6))
+
+# Plot time-domain signal
+plt.subplot(2, 1, 1)
+plt.plot(t, signal)
+plt.title("Time-domain Signal")
+plt.xlabel("Time [s]")
+plt.ylabel("Amplitude")
+
+# Plot frequency-domain (spectrum) signal
+plt.subplot(2, 1, 2)
+plt.plot(frequencies[:n//2], np.abs(fft_values)[:n//2])  # Plot only the positive frequencies
+plt.title("Frequency Spectrum")
+plt.xlabel("Frequency [Hz]")
+plt.ylabel("Amplitude")
+
+plt.tight_layout()
+plt.show()
+
+
+
+
+
